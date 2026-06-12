@@ -69,11 +69,11 @@ vim.pack.add({
 
   'https://github.com/nvim-tree/nvim-tree.lua', -- file tree
 
-  'https://github.com/nvim-treesitter/nvim-treesitter', -- treesitter
-
   'https://github.com/neovim/nvim-lspconfig', -- language support
 
   'https://github.com/romgrk/barbar.nvim', -- files top bar
+
+  'https://github.com/nvim-treesitter/nvim-treesitter',
 
   'https://github.com/nvim-lualine/lualine.nvim', -- bottom info bar
 
@@ -84,6 +84,8 @@ vim.pack.add({
   'https://github.com/navarasu/onedark.nvim', -- onedark theme
 
   'https://github.com/windwp/nvim-autopairs', -- autopairs for example ()
+
+  'https://github.com/lukas-reineke/indent-blankline.nvim',
 
   'https://github.com/hrsh7th/nvim-cmp', -- LSP autocompletion
 
@@ -112,6 +114,7 @@ require('dashboard').setup {
 require('nvim-tree').setup()
 require('lualine').setup()
 require('nvim-autopairs').setup()
+require('ibl').setup()
 
 -- Enable language support
 vim.lsp.enable('clangd')
