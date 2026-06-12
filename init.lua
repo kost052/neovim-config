@@ -56,28 +56,106 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- 'updatetime' and when going to insert mode.
 vim.cmd('packadd! nohlsearch')
 
+-- Use <leader>-e to toggle file tree
+vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<cr>', defaults)
+
+-- Modify tab width
+vim.cmd('set shiftwidth=2')
+    
 -- Load custom plugins
 vim.pack.add({
 
-  'https://github.com/nvim-tree/nvim-web-devicons',
+  'https://github.com/nvim-tree/nvim-web-devicons', -- icons for file formats
 
-  'https://github.com/nvim-tree/nvim-tree.lua',
+  'https://github.com/nvim-tree/nvim-tree.lua', -- file tree
 
-  'https://github.com/nvim-treesitter/nvim-treesitter',
+  'https://github.com/nvim-treesitter/nvim-treesitter', -- treesitter
 
-  'https://github.com/neovim/nvim-lspconfig',
+  'https://github.com/neovim/nvim-lspconfig', -- language support
 
-  'https://github.com/romgrk/barbar.nvim',
+  'https://github.com/romgrk/barbar.nvim', -- files top bar
 
-  'https://github.com/nvim-lualine/lualine.nvim',
+  'https://github.com/nvim-lualine/lualine.nvim', -- bottom info bar
 
-  'https://github.com/folke/tokyonight.nvim',
+  'https://github.com/nvimdev/dashboard-nvim', -- greeter
+
+  'https://github.com/folke/tokyonight.nvim', -- tokyonight theme
+
+  'https://github.com/navarasu/onedark.nvim', -- onedark theme
+
+  'https://github.com/windwp/nvim-autopairs', -- autopairs for example ()
+
+  'https://github.com/hrsh7th/nvim-cmp', -- LSP autocompletion
+
+  'https://github.com/hrsh7th/cmp-nvim-lsp',-- LSP dependency
+
+  'https://github.com/hrsh7th/cmp-buffer', -- LSP dependency
+
+  'https://github.com/hrsh7th/cmp-path', -- LSP dependency
 
 })
 
+-- Select theme
+--vim.cmd[[colorscheme tokyonight-night]]
+
+require('onedark').setup {
+    style = 'deep'
+}
+require('onedark').load()
+
+-- Greeter config
+require('dashboard').setup {
+  theme = 'doom'    -- theme is doom and hyper default is hyper
+}
+
+-- Load default configs for some plugins
 require('nvim-tree').setup()
 require('lualine').setup()
+require('nvim-autopairs').setup()
 
-vim.cmd[[colorscheme tokyonight-night]]
+-- Enable language support
+vim.lsp.enable('clangd')
 
-vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<cr>', defaults)
+-- Autocompletion config for LSP
+local cmp = require('cmp')
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.snippet.expand(args.body)
+    end,
+  },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  }),
+  matching = { disallow_symbol_nonprefix_matching = false }
+})
