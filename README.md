@@ -1,2 +1,2 @@
-# neovim-config
+### neovim-config
 Configuration file for neovim.
