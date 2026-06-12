@@ -6,7 +6,6 @@
   - ``gcc`` compiler in your PATH
   - LSP installed for example ``clangd`` for C++
 # Installation
-You can just copy the [init.lua](https://github.com/kost052/neovim-config/blob/main/init.lua) file and replace it manually or copy the command below and change output path if needed.
 ```
 curl https://github.com/kost052/neovim-config/blob/main/init.lua -o ~/.config/nvim/init.lua
 ```
