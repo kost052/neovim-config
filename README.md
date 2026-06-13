@@ -8,5 +8,5 @@
 # Installation
 Install latest version of Neovim and run the command below:
 ```
-curl --create-dirs https://github.com/kost052/neovim-config/blob/main/init.lua -o ~/.config/nvim/init.lua
+curl --create-dirs https://raw.githubusercontent.com/kost052/neovim-config/refs/heads/main/init.lua -o ~/.config/nvim/init.lua
 ```
