@@ -6,6 +6,7 @@
   - ``gcc`` compiler in your PATH
   - LSP installed for example ``clangd`` for C++
 # Installation
+Install latest version of Neovim and run the command below:
 ```
-curl https://github.com/kost052/neovim-config/blob/main/init.lua -o ~/.config/nvim/init.lua
+curl --create-dirs https://github.com/kost052/neovim-config/blob/main/init.lua -o ~/.config/nvim/init.lua
 ```
