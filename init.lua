@@ -48,7 +48,7 @@ vim.keymap.set({ 'n' }, '<A-l>', '<C-w>l')
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   callback = function()
-    vim.hl.hl_op()
+    vim.highlight.on_yank()
   end,
 })
 
@@ -60,7 +60,7 @@ vim.cmd('packadd! nohlsearch')
 vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<cr>', defaults)
 
 -- Modify tab width
-vim.cmd('set shiftwidth=2')
+vim.cmd('set shiftwidth=4')
     
 -- Load custom plugins
 vim.pack.add({
@@ -73,92 +73,24 @@ vim.pack.add({
 
   'https://github.com/romgrk/barbar.nvim', -- files top bar
 
-  'https://github.com/nvim-treesitter/nvim-treesitter',
-
   'https://github.com/nvim-lualine/lualine.nvim', -- bottom info bar
-
-  'https://github.com/nvimdev/dashboard-nvim', -- greeter
-
-  'https://github.com/folke/tokyonight.nvim', -- tokyonight theme
 
   'https://github.com/navarasu/onedark.nvim', -- onedark theme
 
-  'https://github.com/windwp/nvim-autopairs', -- autopairs for example ()
-
-  'https://github.com/lukas-reineke/indent-blankline.nvim',
-
-  'https://github.com/hrsh7th/nvim-cmp', -- LSP autocompletion
-
-  'https://github.com/hrsh7th/cmp-nvim-lsp',-- LSP dependency
-
-  'https://github.com/hrsh7th/cmp-buffer', -- LSP dependency
-
-  'https://github.com/hrsh7th/cmp-path', -- LSP dependency
+  'https://github.com/windwp/nvim-autopairs', -- autopairs
 
 })
 
--- Select theme
---vim.cmd[[colorscheme tokyonight-night]]
-
+-- Theme config
 require('onedark').setup {
-    style = 'deep'
+    style = 'dark'
 }
 require('onedark').load()
 
--- Greeter config
-require('dashboard').setup {
-  theme = 'doom'    -- theme is doom and hyper default is hyper
-}
-
--- Load default configs for some plugins
+-- Load default configs for plugins
 require('nvim-tree').setup()
 require('lualine').setup()
 require('nvim-autopairs').setup()
-require('ibl').setup()
 
 -- Enable language support
 vim.lsp.enable('clangd')
-
--- Autocompletion config for LSP
-local cmp = require('cmp')
-
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      vim.snippet.expand(args.body)
-    end,
-  },
-  window = {
-    completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
-  }),
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-  }, {
-    { name = 'buffer' },
-  })
-})
-
-cmp.setup.cmdline({ '/', '?' }, {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
-
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  }),
-  matching = { disallow_symbol_nonprefix_matching = false }
-})
